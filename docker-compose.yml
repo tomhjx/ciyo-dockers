@@ -14,6 +14,8 @@ services:
       links:
         - mysql:mysql
         - memcached:memcached
+        - redis_db:redis_db
+        - redis_cache:redis_cache
   mysql:
       build: ./mysql
       container_name: ciyo_mysql
@@ -32,3 +34,22 @@ services:
       restart: always
       ports:
         - "11211:11211"
+  redis_db:
+      build: ./redis_db
+      container_name: ciyo_redis_db
+      volumes:
+        - ~/Work/data/redis_db:/data
+        - ~/Work/log:/data1/log
+      privileged: true
+      restart: always
+      ports:
+        - "6379:6379"
+  redis_cache:
+      build: ./redis_cache
+      container_name: ciyo_redis_cache
+      volumes:
+        - ~/Work/log:/data1/log
+      privileged: true
+      restart: always
+      ports:
+        - "6380:6380"
