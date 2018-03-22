@@ -1,0 +1,28 @@
+FROM php:5.6-fpm
+MAINTAINER ciyo-PHP "tom_hejiaxi@163.com"
+
+COPY sources.list    /etc/apt/sources.list
+# 安装modules
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libmemcached-dev \
+        libmcrypt-dev \
+        libjpeg62-turbo-dev \
+        libpng12-dev \
+        unzip \
+        && docker-php-ext-install -j$(nproc) iconv mcrypt \
+        && docker-php-ext-install mysqli \
+        && docker-php-ext-install pdo_mysql \
+        && docker-php-ext-install opcache
+RUN docker-php-ext-install mysql
+COPY php.ini    /usr/local/etc/php/php.ini
+COPY php-fpm.conf    /usr/local/etc/php-fpm.conf
+ADD https://getcomposer.org/download/1.6.3/composer.phar /usr/local/bin/composer
+RUN chmod +x /usr/local/bin/composer
+
+WORKDIR /data1
+
+RUN usermod -u 1000 www-data
+RUN  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+EXPOSE 9000
+VOLUME ["/data1"]

@@ -1,0 +1,34 @@
+version: '3'
+services:
+  php_nginx:
+      build: ./php5_nginx
+      container_name: ciyo_php_nginx
+      volumes:
+        - ~/Work:/data1
+        - ~/Work/htdocs/ciyo-dockers/php5_nginx/nginx/sites-enabled:/usr/local/nginx/conf/servers
+        - ~/Work/htdocs/ciyo-dockers/php5_nginx/nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+        - ~/Work/htdocs/ciyo-dockers/php5_nginx/php5/etc/php-fpm.conf:/usr/local/php5/etc/php-fpm.conf
+      restart: always
+      ports:
+        - "80:80"
+      links:
+        - mysql:mysql
+        - memcached:memcached
+  mysql:
+      build: ./mysql
+      container_name: ciyo_mysql
+      volumes:
+        - ~/Work/data/mysql:/var/lib/mysql
+        - ~/Work/log:/data1/log
+      privileged: true
+      environment:
+        MYSQL_ROOT_PASSWORD: 123456
+      restart: always
+      ports:
+        - "3306:3306"
+  memcached:
+      image: memcached:1.4
+      container_name: ciyo_memcached
+      restart: always
+      ports:
+        - "11211:11211"
