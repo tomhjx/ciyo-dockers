@@ -81,7 +81,7 @@ wget http://cn2.php.net/get/php-${PHP_VERSION}.tar.bz2/from/this/mirror -O php-$
 tar xjf php-${PHP_VERSION}.tar.bz2; \
 cd php-${PHP_VERSION}; \
 echo "Configure PHP..."; \
-./configure --prefix=/usr/local/php5 --enable-fpm --with-fpm-user=gateway --with-fpm-group=gateway --enable-phpdbg --enable-phpdbg-webhelper --with-openssl  --with-zlib --enable-calendar --enable-bcmath --with-bz2 --with-curl --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-gettext --enable-mbstring --disable-mbregex --with-mcrypt --with-mysqli --enable-pcntl --enable-shmop --enable-sockets --enable-sysvsem --enable-shmop --with-mhash --with-mysql=/usr/local/mysql --with-mysql-sock --enable-pdo --with-pdo-mysql; \
+./configure --prefix=/usr/local/php5 --enable-fpm --with-fpm-user=gateway --with-fpm-group=gateway --enable-phpdbg --enable-phpdbg-webhelper --with-openssl  --with-zlib --enable-calendar --enable-bcmath --with-bz2 --with-curl --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-gettext --enable-mbstring --disable-mbregex --with-mcrypt --with-mysqli --enable-pcntl --enable-shmop --enable-sockets --enable-sysvsem --enable-shmop --with-mhash --with-mysql-sock --enable-pdo --with-pdo-mysql; \
 echo "Compiling PHP..."; \
 make -j${NPROC}; \
 make install; \

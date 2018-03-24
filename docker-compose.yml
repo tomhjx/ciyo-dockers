@@ -8,6 +8,7 @@ services:
         - ~/Work/htdocs/ciyo-dockers/php5_nginx/nginx/sites-enabled:/usr/local/nginx/conf/servers
         - ~/Work/htdocs/ciyo-dockers/php5_nginx/nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
         - ~/Work/htdocs/ciyo-dockers/php5_nginx/php5/etc/php-fpm.conf:/usr/local/php5/etc/php-fpm.conf
+      privileged: true
       restart: always
       ports:
         - "80:80"
@@ -16,13 +17,13 @@ services:
         - memcached:memcached
         - redis_db:redis_db
         - redis_cache:redis_cache
-        - rabbitmq:rabbitmq
+        # - rabbitmq:rabbitmq
   mysql:
       build: ./mysql
       container_name: ciyo_mysql
-      volumes:
-        - ~/Work/data/mysql:/var/lib/mysql
-        - ~/Work/log:/data1/log
+      # volumes:
+        # - ~/Work/data/mysql:/var/lib/mysql
+        # - ~/Work/log:/data1/log
       privileged: true
       environment:
         MYSQL_ROOT_PASSWORD: 123456
@@ -54,9 +55,9 @@ services:
       restart: always
       ports:
         - "6380:6380"
-  rabbitmq:
-      image: rabbitmq:3.1.5-management
-      container_name: ciyo_rabbitmq
-      restart: always
-      ports:
-        - "5672:5672"
+  # rabbitmq:
+  #     image: rabbitmq:3.1.5-management
+  #     container_name: ciyo_rabbitmq
+  #     restart: always
+  #     ports:
+  #       - "5672:5672"
