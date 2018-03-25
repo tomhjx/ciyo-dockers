@@ -21,9 +21,9 @@ services:
   mysql:
       build: ./mysql
       container_name: ciyo_mysql
-      # volumes:
-        # - ~/Work/data/mysql:/var/lib/mysql
-        # - ~/Work/log:/data1/log
+      volumes:
+        - ~/Work/data/mysql:/var/lib/mysql
+        - ~/Work/log:/data1/log
       privileged: true
       environment:
         MYSQL_ROOT_PASSWORD: 123456

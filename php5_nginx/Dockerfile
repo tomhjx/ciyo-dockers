@@ -136,9 +136,10 @@ echo -e "\n\n[intl]\nextension=intl.so\n" >> /usr/local/php5/lib/php.ini;
 
 RUN cd $TMP_PATH; \
 echo "Install PHP memcache extension..."; \
-wget http://pecl.php.net/get/memcache-3.0.8.tgz;\
-tar -zxvf memcache-3.0.8.tgz;\
-cd memcache-3.0.8;\
+wget http://pecl.php.net/get/memcache-3.0.8.tgz -O memcache.tar.gz;\
+mkdir -p memcache; \
+tar -zxvf memcache.tar.gz -C memcache --strip-components=1;\
+cd memcache;\
 /usr/local/php5/bin/phpize;\
 ./configure --with-php-config=/usr/local/php5/bin/php-config;\
 make && make install ;\
@@ -161,28 +162,45 @@ tar xvzf ImageMagick.tar.gz; \
 cd ImageMagick-*; \
 ./configure --prefix=/usr/local/imagemagick;make;make install;
 
-RUN echo "Install PHP imagick extension..."; \
-wget http://pecl.php.net/get/imagick-3.4.3.tgz;\
-tar xvzf imagick-3.4.3.tgz;\
-cd imagick-3.4.3;\
+RUN cd $TMP_PATH; \
+echo "Install PHP imagick extension..."; \
+wget http://pecl.php.net/get/imagick-3.4.3.tgz -O imagick.tar.gz;\
+mkdir -p imagick; \
+tar xvzf imagick.tar.gz -C imagick --strip-components=1;\
+cd imagick;\
 /usr/local/php5/bin/phpize;\
 ./configure --with-php-config=/usr/local/php5/bin/php-config --with-imagick=/usr/local/imagemagick;\
 make;make install;\
 echo -e "\n\n[imagick]\nextension=imagick.so\n" >> /usr/local/php5/lib/php.ini;
 
-RUN echo "Install libdatrie..."; \
-wget ftp://linux.thai.net/pub/ThaiLinux/software/libthai/libdatrie-0.2.9.tar.xz;\
-tar xvf libdatrie-0.2.9.tar.xz;\
-cd libdatrie-0.2.9;\
+RUN cd $TMP_PATH; \
+echo "Install libdatrie..."; \
+wget 'ftp://linux.thai.net/pub/ThaiLinux/software/libthai/libdatrie-0.2.9.tar.xz' -O libdatrie.tar.gz; \
+mkdir -p libdatrie; \
+tar xvf libdatrie.tar.gz -C libdatrie --strip-components=1;\
+cd libdatrie;\
 ./configure --prefix=/usr/local/libdatrie;make;make install;
 
-RUN echo "Install PHP trie-filter extension..."; \
+RUN cd $TMP_PATH; \
+echo "Install PHP trie-filter extension..."; \
 git clone http://github.com/wulijun/php-ext-trie-filter;\
 cd php-ext-trie-filter;\
 /usr/local/php5/bin/phpize;\
 ./configure --with-php-config=/usr/local/php5/bin/php-config --with-trie_filter=/usr/local/libdatrie;\
 make;make install;\
 echo -e "\n\n[trie_filter]\nextension=trie_filter.so\n" >> /usr/local/php5/lib/php.ini;
+
+# 安装 Xdebug
+RUN cd $TMP_PATH; \
+echo "Install PHP xdebug extension..."; \
+wget 'https://xdebug.org/files/xdebug-2.4.0.tgz' -O xdebug.tar.gz;\
+mkdir -p xdebug; \
+tar xvf xdebug.tar.gz -C xdebug --strip-components=1;\
+cd xdebug;\
+/usr/local/php5/bin/phpize;\
+./configure --with-php-config=/usr/local/php5/bin/php-config;\
+make;make install;\
+echo -e "\n\n[xdebug]\nextension=xdebug.so\nxdebug.enable=1" >> /usr/local/php5/lib/php.ini;
 
 
 RUN echo "Clean ..."; \
