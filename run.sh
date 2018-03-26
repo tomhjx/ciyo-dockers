@@ -11,6 +11,7 @@ case $1 in
     ;;
 
     'push-git-all')
-    git add -A . && git commit -m "$2" && git push
+    read -p  "输入该次git提交的备注说明：" msg
+    git add -A . && git commit -m "$msg" && git push
     ;;
 esac
