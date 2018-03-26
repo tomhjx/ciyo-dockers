@@ -110,11 +110,10 @@ cd phpredis; \
 make -j${NPROC}; \
 make install; \
 
-cd $TMP_PATH; \
-echo "Configure PHP...";
+#composer
+RUN curl -sS https://getcomposer.org/installer | /usr/local/php5/bin/php;mv composer.phar /usr/local/bin/composer
 
 COPY php5/php.ini /usr/local/php5/lib/php.ini
-RUN echo -e "[redis]\nextension = redis.so\n\n[memcached]\nextension = memcached.so\n" >> /usr/local/php5/lib/php.ini;
 
 RUN cd $TMP_PATH; \
 echo "Install icu ..."; \
@@ -129,11 +128,6 @@ RUN cd $TMP_PATH; \
 echo "Install PHP intl extension..."; \
 cd php-${PHP_VERSION}/ext/intl/; /usr/local/php5/bin/phpize; ./configure -h; ./configure --enable-intl --with-icu-dir=/usr/local/icu/ --with-php-config=/usr/local/php5/bin/php-config ;make && make install ;\
 
-cd $TMP_PATH; \
-echo "Configure PHP..."; \
-echo -e "\n\n[intl]\nextension=intl.so\n" >> /usr/local/php5/lib/php.ini;
-
-
 RUN cd $TMP_PATH; \
 echo "Install PHP memcache extension..."; \
 wget http://pecl.php.net/get/memcache-3.0.8.tgz -O memcache.tar.gz;\
@@ -142,8 +136,7 @@ tar -zxvf memcache.tar.gz -C memcache --strip-components=1;\
 cd memcache;\
 /usr/local/php5/bin/phpize;\
 ./configure --with-php-config=/usr/local/php5/bin/php-config;\
-make && make install ;\
-echo -e "\n\n[memcache]\nextension=memcache.so\n" >> /usr/local/php5/lib/php.ini;
+make && make install ;
 
 
 RUN cd $TMP_PATH; \
@@ -152,8 +145,7 @@ git clone https://github.com/igbinary/igbinary;\
 cd igbinary;\
 /usr/local/php5/bin/phpize;\
 ./configure CFLAGS="-O2 -g" --enable-igbinary --with-php-config=/usr/local/php5/bin/php-config;\
-make && make install ;\
-echo -e "\n\n[igbinary]\nextension=igbinary.so\n\nsession.serialize_handler=igbinary\n" >> /usr/local/php5/lib/php.ini;
+make && make install ;
 
 RUN cd $TMP_PATH; \
 echo "Install ImageMagick ..."; \
@@ -170,8 +162,7 @@ tar xvzf imagick.tar.gz -C imagick --strip-components=1;\
 cd imagick;\
 /usr/local/php5/bin/phpize;\
 ./configure --with-php-config=/usr/local/php5/bin/php-config --with-imagick=/usr/local/imagemagick;\
-make;make install;\
-echo -e "\n\n[imagick]\nextension=imagick.so\n" >> /usr/local/php5/lib/php.ini;
+make;make install;
 
 RUN cd $TMP_PATH; \
 echo "Install libdatrie..."; \
@@ -187,8 +178,7 @@ git clone http://github.com/wulijun/php-ext-trie-filter;\
 cd php-ext-trie-filter;\
 /usr/local/php5/bin/phpize;\
 ./configure --with-php-config=/usr/local/php5/bin/php-config --with-trie_filter=/usr/local/libdatrie;\
-make;make install;\
-echo -e "\n\n[trie_filter]\nextension=trie_filter.so\n" >> /usr/local/php5/lib/php.ini;
+make;make install;
 
 # 安装 Xdebug
 RUN cd $TMP_PATH; \
@@ -199,8 +189,7 @@ tar xvf xdebug.tar.gz -C xdebug --strip-components=1;\
 cd xdebug;\
 /usr/local/php5/bin/phpize;\
 ./configure --with-php-config=/usr/local/php5/bin/php-config;\
-make;make install;\
-echo -e "\n\n[xdebug]\nextension=xdebug.so\nxdebug.enable=1" >> /usr/local/php5/lib/php.ini;
+make;make install;
 
 
 RUN echo "Clean ..."; \
@@ -222,11 +211,11 @@ RUN set -x && \
 #Update nginx config
 ADD nginx/nginx.conf /usr/local/nginx/conf/
 COPY php5/etc /usr/local/php5/etc
+COPY php5/extini /usr/local/php5/lib/extini
 
 ADD php5/start.sh /start.php5.sh
 RUN chmod +x /start.php5.sh
 RUN echo "export PATH=$PATH:/usr/local/php5/bin" >> /etc/bashrc;
-RUN curl -sS https://getcomposer.org/installer | /usr/local/php5/bin/php;mv composer.phar /usr/local/bin/composer
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 VOLUME [ "/sys/fs/cgroup", "/usr/local/nginx/conf", "/data0/nginx/htdocs", "/data0/nginx/logs" ]
