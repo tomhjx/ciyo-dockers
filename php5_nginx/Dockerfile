@@ -212,6 +212,8 @@ RUN set -x && \
 ADD nginx/nginx.conf /usr/local/nginx/conf/
 COPY php5/etc /usr/local/php5/etc
 COPY php5/extini /usr/local/php5/lib/extini
+RUN cat /usr/local/php5/lib/extini/*.ini >> /usr/local/php5/lib/php.ini;\
+    rm -rf /usr/local/php5/lib/extini
 
 ADD php5/start.sh /start.php5.sh
 RUN chmod +x /start.php5.sh
