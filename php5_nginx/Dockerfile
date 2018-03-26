@@ -108,7 +108,7 @@ cd phpredis; \
 /usr/local/php5/bin/phpize; \
 ./configure --enable-redis --with-php-config=/usr/local/php5/bin/php-config; \
 make -j${NPROC}; \
-make install; \
+make install;
 
 #composer
 RUN curl -sS https://getcomposer.org/installer | /usr/local/php5/bin/php;mv composer.phar /usr/local/bin/composer
