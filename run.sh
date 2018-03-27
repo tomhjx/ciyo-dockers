@@ -7,7 +7,7 @@ case $1 in
     ;;
 
     'rebuild')
-    docker-compose stop $2 && docker-compose build $2
+    docker-compose stop $2 && docker-compose build $2 && docker-compose up -d $2
     ;;
 
     'push-git-all')

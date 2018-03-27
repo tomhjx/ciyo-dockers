@@ -27,6 +27,7 @@ readonly NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1); \
 echo "NPROC=$NPROC"; \
 echo "Installing packages..."; \
 yum install -y gcc gcc-c++ automake autoconf wget git bzip2 bzip2-devel libjpeg-devel libvpx-devel freetype-devel libpng-devel libmcrypt-devel libXpm-devel pcre pcre-devel openssl openssl-devel gd gd-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel curl curl-devel libcurl libcurl-devel wget zlib zlib-devel; \
+yum install -y graphviz; \
 echo "Downloading openresty..."; \
 curl -sSL http://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz; \
 cd openresty-${OPENRESTY_VERSION}; \
@@ -212,13 +213,12 @@ RUN set -x && \
 ADD nginx/nginx.conf /usr/local/nginx/conf/
 COPY php5/etc /usr/local/php5/etc
 COPY php5/extini /usr/local/php5/lib/extini
-RUN cat /usr/local/php5/lib/extini/*.ini >> /usr/local/php5/lib/php.ini;\
-    rm -rf /usr/local/php5/lib/extini
-
 ADD php5/start.sh /start.php5.sh
 RUN chmod +x /start.php5.sh
 RUN echo "export PATH=$PATH:/usr/local/php5/bin" >> /etc/bashrc;
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN cat /usr/local/php5/lib/extini/*.ini >> /usr/local/php5/lib/php.ini;\
+    rm -rf /usr/local/php5/lib/extini
 
 VOLUME [ "/sys/fs/cgroup", "/usr/local/nginx/conf", "/data0/nginx/htdocs", "/data0/nginx/logs" ]
 ENTRYPOINT ["/start.php5.sh"]
