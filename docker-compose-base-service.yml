@@ -1,0 +1,32 @@
+version: '3'
+services:
+  nginx:
+      build: ./openresty
+      container_name: ciyo_nginx
+      volumes:
+        - ~/Work:/data1
+        - ~/Work/htdocs/ciyo-dockers/openresty/conf.d:/etc/nginx/conf.d/
+        - ~/Work/htdocs/ciyo-dockers/openresty/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      restart: always
+      ports:
+        - "80:80"
+      links:
+        - gitlab:gitlab
+  #https://docs.gitlab.com/omnibus/docker/
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    container_name: ciyo_gitlab
+    restart: always
+    hostname: 'gitlab.ciyo.work.net'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.ciyo.work.net:9090'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+    ports:
+      - '9090:9090'
+      - '2224:22'
+    restart: always
+    volumes:
+      - '~/Work/htdocs/ciyo-dockers/gitlab/etc:/etc/gitlab'
+      - '~/Work/log/gitlab:/var/log/gitlab'
+      - '~/Work/data/gitlab:/var/opt/gitlab'

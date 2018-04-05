@@ -11,7 +11,12 @@ case $1 in
     ;;
 
     'push-git-all')
-    read -p  "输入该次git提交的备注说明：" msg
-    git add -A . && git commit -m "$msg" && git push
+
+    if [[ -z $2 ]]; then
+        echo "$0 $1 [该次git提交的备注说明]"
+        exit 1
+    fi
+    git add -A . && git commit -m "$2" && git push
+
     ;;
 esac
