@@ -7,7 +7,22 @@ case $1 in
     ;;
 
     'rebuild')
-    docker-compose stop $2 && docker-compose build $2 && docker-compose up -d $2
+    serviceName=$2
+    configName=$3
+    err=0
+    if [[ -z $serviceName ]]; then
+        serviceName="[配置定义的服务名]"
+    fi
+    if [[ -z $configName ]]; then
+        configName="[配置文件名]"
+    fi
+    if [[ 1 == $err ]]; then
+        echo "$0 $1 $serviceName $configName"
+        exit 1
+    fi
+    configParam=" -f $3"
+
+    docker-compose $configParam stop $serviceName && docker-compose $configParam build $2 && docker-compose $configParam up -d $2
     ;;
 
     'push-git-all')
