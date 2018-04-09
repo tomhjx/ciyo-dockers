@@ -12,9 +12,10 @@ services:
         - "80:80"
       links:
         - gitlab:gitlab
+        # - gitlab2:gitlab2
   #https://docs.gitlab.com/omnibus/docker/
   gitlab:
-    image: 'gitlab/gitlab-ce:latest'
+    build: ./gitlab
     container_name: ciyo_gitlab
     restart: always
     hostname: 'gitlab.ciyo.work.net'
@@ -30,3 +31,22 @@ services:
       - '~/Work/htdocs/ciyo-dockers/gitlab/etc:/etc/gitlab'
       - '~/Work/log/gitlab:/var/log/gitlab'
       - '~/Work/data/gitlab:/var/opt/gitlab'
+  # gitlab2:
+  #   build: ./gitlab
+  #   container_name: ciyo_gitlab2
+  #   restart: always
+  #   hostname: 'gitlab2.ciyo.work.net'
+  #   environment:
+  #     GITLAB_OMNIBUS_CONFIG: |
+  #       external_url 'http://gitlab2.ciyo.work.net:9091'
+  #       gitlab_rails['gitlab_shell_ssh_port'] = 2225
+  #   ports:
+  #     - '9091:80'
+  #     - '2225:22'
+  #   links:
+  #     - gitlab:gitlab
+  #   restart: always
+  #   volumes:
+  #     - '~/Work/htdocs/ciyo-dockers/gitlab/etc:/etc/gitlab'
+  #     - '~/Work/log/gitlab2:/var/log/gitlab'
+  #     - '~/Work/data/gitlab2:/var/opt/gitlab'

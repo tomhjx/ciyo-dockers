@@ -1,17 +1,28 @@
 version: '3'
 services:
-  php_nginx:
-      build: ./php5_nginx
-      container_name: ciyo_php_nginx
+  nginx:
+      build: ./openresty
+      container_name: ciyo_nginx
       volumes:
         - ~/Work:/data1
-        - ~/Work/htdocs/ciyo-dockers/php5_nginx/nginx/sites-enabled:/usr/local/nginx/conf/servers
-        - ~/Work/htdocs/ciyo-dockers/php5_nginx/nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+        - ~/Work/htdocs/ciyo-dockers/openresty/conf.d:/etc/nginx/conf.d/
+        - ~/Work/htdocs/ciyo-dockers/openresty/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      restart: always
+      ports:
+        - "80:80"
+        - "8088:8088"
+      links:
+        - php:php
+  php:
+      build: ./php5
+      container_name: ciyo_php
+      volumes:
+        - ~/Work:/data1
         - ~/Work/htdocs/ciyo-dockers/php5_nginx/php5/etc/php-fpm.conf:/usr/local/php5/etc/php-fpm.conf
       privileged: true
       restart: always
       ports:
-        - "80:80"
+        - "9000:9000"
       links:
         - mysql:mysql
         - memcached:memcached

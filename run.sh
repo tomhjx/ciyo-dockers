@@ -34,4 +34,9 @@ case $1 in
     git add -A . && git commit -m "$2" && git push
 
     ;;
+
+    'login-txyun')
+
+    docker login -u 100004077552 -p `cat ~/Work/pwd` ccr.ccs.tencentyun.com
+    ;;
 esac
