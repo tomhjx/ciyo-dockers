@@ -104,6 +104,7 @@ ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/
 # Copy nginx configuration files
 #COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 #COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
-RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && mkdir -p /tmp/nginx/cache
 
 CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
