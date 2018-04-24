@@ -3,28 +3,19 @@
 ~Work下的目录结构
 
 ```
-~Work
+/Users/tom/Work
 ├── data
-│   ├── mysql
-│   │   ├── auto.cnf
-│   │   ├── ib_logfile0
-│   │   ├── ib_logfile1
-│   │   ├── ibdata1
-│   │   ├── mysql
-│   │   └── performance_schema
-│   └── redis
-│       └── dump.rdb
+│   ├── mysql
+│   ├── nginx
+│   └── redis_db
 ├── htdocs
-│   ├── adapi.mmfei.cn
-│   ├── adnew.mmfei.cn
-│   └── default
-│       └── phpinfo.php
-└── log
-    ├── nginx
-    │   ├── access.log
-    │   └── error.log
-    └── php
-        ├── fpm-access.log
-        └── fpm-error.log
+│   ├── ciyo-dockers
+│   ├── lychee-server
+│
+├── log
+│   ├── gitlab
+│   ├── gitlab2
+│   ├── nginx
+│   └── php
         
 ```
