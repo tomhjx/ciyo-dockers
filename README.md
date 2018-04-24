@@ -10,7 +10,7 @@
 │   └── redis_db
 ├── htdocs
 │   ├── ciyo-dockers
-│   ├── lychee-server
+│   ├── lychee-server (ssh://git@gitlab.ciyo.cn:19901/ciyocon/lychee-server.git)
 │
 ├── log
 │   ├── gitlab
