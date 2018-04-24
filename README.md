@@ -9,7 +9,7 @@
 │   ├── nginx
 │   └── redis_db
 ├── htdocs
-│   ├── ciyo-dockers
+│   ├── ciyo-dockers (git@github.com:tomhjx/ciyo-dockers.git)
 │   ├── lychee-server (ssh://git@gitlab.ciyo.cn:19901/ciyocon/lychee-server.git)
 │
 ├── log
