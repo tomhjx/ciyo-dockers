@@ -3,7 +3,7 @@
 ~Work下的目录结构
 
 ```
-~å/Work
+~/Work
 ├── data
 │   ├── mysql
 │   ├── nginx
